@@ -1,0 +1,4 @@
+package com.example.BlackJackMaster.blackjakgame.domain.valueobjects;
+
+public class Hand {
+}
