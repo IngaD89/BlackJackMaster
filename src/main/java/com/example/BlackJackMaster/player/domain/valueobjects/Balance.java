@@ -1,6 +1,7 @@
 package com.example.BlackJackMaster.player.domain.valueobjects;
 
 import com.example.BlackJackMaster.player.domain.exceptions.InsufficientAmountException;
+import com.example.BlackJackMaster.player.domain.exceptions.InvalidAmountException;
 
 public class Balance {
 
@@ -17,13 +18,16 @@ public class Balance {
         return amount;
     }
 
-    public Balance add(double amount){
+    public Balance increaseBalance(double amount){
 
         return new Balance(this.amount + amount);
     }
 
-    public Balance subtract(double amount){
+    public Balance decreaseBalance(double amount){
 
+        if (amount <= 0) {
+            throw new InvalidAmountException("Amount must be greater than zero.");
+        }
         if(this.amount < amount){
             throw new InsufficientAmountException("Insufficient balance to perform this operation.");
         }

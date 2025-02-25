@@ -1,6 +1,7 @@
 package com.example.BlackJackMaster.blackjakgame.domain.valueobjects;
 
 import com.example.BlackJackMaster.blackjakgame.domain.enums.CardValue;
+import com.example.BlackJackMaster.blackjakgame.domain.enums.CardVisibility;
 import com.example.BlackJackMaster.blackjakgame.domain.enums.Suit;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,10 +13,17 @@ import java.util.stream.Collectors;
 public class Card {
     private Suit suit;
     private CardValue value;
+    private CardVisibility cardVisibility;
 
     public Card(Suit suit, CardValue value) {
         this.suit = suit;
         this.value = value;
+    }
+
+    public Card(Suit suit, CardValue value, CardVisibility cardVisibility) {
+        this.suit = suit;
+        this.value = value;
+        this.cardVisibility = cardVisibility;
     }
 
     public Suit getSuit() {
@@ -32,6 +40,14 @@ public class Card {
 
     public void setValue(CardValue value) {
         this.value = value;
+    }
+
+    public CardVisibility getCardVisibility() {
+        return cardVisibility;
+    }
+
+    public void setCardVisibility(CardVisibility cardVisibility) {
+        this.cardVisibility = cardVisibility;
     }
 
     public static List<Card> createCards() {

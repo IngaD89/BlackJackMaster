@@ -6,7 +6,7 @@ import com.example.BlackJackMaster.player.domain.valueobjects.Balance;
 import java.time.Instant;
 
 public class Player {
-    private Long id;
+    private String id;
     private Instant createdAt;
     private Instant updatedAt;
     private String nickname;
@@ -26,7 +26,7 @@ public class Player {
         this.deleted = false;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -71,7 +71,7 @@ public class Player {
     }
 
 
-    public Player changeNickname(String nickname){
+    public Player updateNickname(String nickname){
         this.checkIfDeleted();
         if(!this.nickname.equals(nickname)){
             this.nickname = nickname;
@@ -80,11 +80,20 @@ public class Player {
         return this;
     }
 
+    public void updateBalance(double amount){
+        this.checkIfDeleted();
+        double updatedAmount = this.balance.getAmount() + amount;
+        this.balance = new Balance(updatedAmount);
+        this.updatedAt = Instant.now();
+    }
+
     public void incrementRankingScore() {
         this.rankingScore += 10;
+        this.updatedAt = Instant.now();
     }
 
     public void incrementWonGameNumber() {
         this.wonGameNumber++;
+        this.updatedAt = Instant.now();
     }
 }
