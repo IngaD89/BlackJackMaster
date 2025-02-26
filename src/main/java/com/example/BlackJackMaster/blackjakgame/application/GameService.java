@@ -120,6 +120,21 @@ public class GameService {
         return gameRepository.save(game);
     }
 
+    public Mono<Void> deleteGame(String gameId) {
+        return gameRepository.findById(gameId)
+                .switchIfEmpty(Mono.error(new GameNotFoundException("Game not found")))
+                .flatMap(game -> {
+                    game.setDeleted(true);
+                    return gameRepository.save(game);
+                })
+                .then();
+    }
+
+    public Mono<Game> getGameById(String gameId) {
+        return gameRepository.findById(gameId)
+                .filter(game -> !game.isDeleted())
+                .switchIfEmpty(Mono.error(new GameNotFoundException("Game not found")));
+    }
 }
 
 
