@@ -1,5 +1,6 @@
 package com.example.BlackJackMaster.player.application;
 
+import com.example.BlackJackMaster.blackjakgame.application.exceptions.NicknameAlreadyInUse;
 import com.example.BlackJackMaster.player.application.exceptions.PlayerNotFoundException;
 import com.example.BlackJackMaster.player.domain.Player;
 import com.example.BlackJackMaster.player.domain.PlayerRepository;
@@ -25,12 +26,11 @@ public class PlayerService {
     public Mono<Player> getById(String id) {
         return this.playerRepository
                 .findById(id)
-                .switchIfEmpty(Mono.<Player>error(() -> new PlayerNotFoundException(
+                .switchIfEmpty(Mono.error(() -> new PlayerNotFoundException(
                         "Player with id " + id + " not found"
                 )));
     }
 
-    // TODO verify this method, increaseBalance nicknameAlreadyExistsException
     public Mono<Player> findByNickname(String nickname) {
         return this.playerRepository
                 .findByNickname(nickname)
@@ -40,7 +40,6 @@ public class PlayerService {
 
     }
 
-    // TODO verify this method
     public Mono<Player> updatePlayer(
             String id,
             String nickname,
@@ -51,6 +50,16 @@ public class PlayerService {
                 .switchIfEmpty(Mono.error(() -> new PlayerNotFoundException(
                         "Player with id " + id + " not found"
                 )))
+                .flatMap(player -> {
+                    if(!player.getNickname().equals(nickname)){
+                        return this.playerRepository
+                                .findByNickname(nickname)
+                                .flatMap(existingPlayer
+                                        -> Mono.error(new NicknameAlreadyInUse("Nickname " + nickname + " is taken")))
+                                .then(Mono.just(player));
+                    }
+                    return Mono.just(player);
+                })
                 .flatMap(player -> {
                     if(player.getNickname() != null && !player.getNickname().equals(nickname)){
                         player.updateNickname(nickname);

@@ -2,6 +2,7 @@ package com.example.BlackJackMaster.player.web;
 
 import com.example.BlackJackMaster.player.application.PlayerService;
 import com.example.BlackJackMaster.player.domain.Player;
+import com.example.BlackJackMaster.player.web.dto.PlayerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -25,10 +26,8 @@ public class PlayerController {
     }
 
     @PutMapping("/players/{id}")
-    public Mono<Player> updatePlayer(@PathVariable String id, @RequestBody Map<String, Object> playerMap){
-        String nickname = (String) playerMap.get("nickname");
-        double amount = (double) playerMap.get("amount");
-        return playerService.updatePlayer(id, nickname, amount);
+    public Mono<Player> updatePlayer(@PathVariable String id, @RequestBody PlayerDTO playerDTO){
+        return playerService.updatePlayer(id, playerDTO.getNickname(), playerDTO.getBalanceAmount());
     }
 
     @DeleteMapping("/players/{id}")
