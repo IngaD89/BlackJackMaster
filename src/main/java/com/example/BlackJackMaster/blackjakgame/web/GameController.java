@@ -29,6 +29,7 @@ public class GameController {
     }
 
 
+    //TODO se lanza error y para el programa con 500
     @PostMapping("/{gameId}/start")
     public Mono<ResponseEntity<Game>> startGame(
             @PathVariable String gameId,
@@ -59,7 +60,7 @@ public class GameController {
     }
 
 
-    @PutMapping("/{gameId}")
+    @DeleteMapping("/{gameId}")
     public Mono<ResponseEntity<Void>> delete(@PathVariable String gameId) {
         return gameService.deleteGame(gameId)
                 .map(ResponseEntity::ok)

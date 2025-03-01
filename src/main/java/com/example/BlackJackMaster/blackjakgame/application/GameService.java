@@ -1,7 +1,6 @@
 package com.example.BlackJackMaster.blackjakgame.application;
 
 import com.example.BlackJackMaster.blackjakgame.application.exceptions.GameNotFoundException;
-import com.example.BlackJackMaster.blackjakgame.application.exceptions.InsufficientBalanceException;
 import com.example.BlackJackMaster.blackjakgame.domain.Game;
 import com.example.BlackJackMaster.blackjakgame.domain.GameRepository;
 import com.example.BlackJackMaster.blackjakgame.domain.enums.GameResult;
@@ -48,7 +47,7 @@ public class GameService {
 
     public Mono<Game> startGame(String gameId, int betAmount) {
         return gameRepository.findById(gameId)
-                .switchIfEmpty(Mono.error(new GameNotFoundException("Game not found")))  // Verificar que el juego existe
+                .switchIfEmpty(Mono.error(new GameNotFoundException("Game not found")))
                 .flatMap(game -> {
                     if (game.getGameStatus() != GameStatus.WAITING) {
                         return Mono.error(new InvalidGameActionException("Game is already in progress or finished"));

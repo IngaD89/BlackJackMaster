@@ -2,12 +2,16 @@ package com.example.BlackJackMaster.player.domain;
 
 import com.example.BlackJackMaster.player.domain.exceptions.UserAlreadyDeletedException;
 import com.example.BlackJackMaster.player.domain.valueobjects.Balance;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
+@Document(collection = "players")
 public class Player {
+    @Id
     private String id;
-    private Instant createdAt;
+    private final Instant createdAt;
     private Instant updatedAt;
     private String nickname;
     private Balance balance;

@@ -10,6 +10,9 @@ import java.util.*;
 public class Deck {
     private List<Card> cardList;
 
+    public Deck() {
+    }
+
     public Deck(List<Card> cardList) {
         this.cardList = cardList;
     }

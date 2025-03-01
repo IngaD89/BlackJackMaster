@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Map;
 
 @RestController
+@RequestMapping("/players")
 public class PlayerController {
 
     private final PlayerService playerService;
@@ -20,17 +20,17 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @GetMapping("/players")
+    @GetMapping()
     public Flux<Player> getAllPlayers(){
         return playerService.getAllPlayers();
     }
 
-    @PutMapping("/players/{id}")
+    @PutMapping("/{id}")
     public Mono<Player> updatePlayer(@PathVariable String id, @RequestBody PlayerDTO playerDTO){
         return playerService.updatePlayer(id, playerDTO.getNickname(), playerDTO.getBalanceAmount());
     }
 
-    @DeleteMapping("/players/{id}")
+    @DeleteMapping("/{id}")
     public Mono<Player> deletePlayer(@PathVariable String id){
         return this.playerService
                 .deletePlayer(id);

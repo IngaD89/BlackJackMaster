@@ -10,11 +10,15 @@ import com.example.BlackJackMaster.blackjakgame.domain.exceptions.InvalidBetAmou
 import com.example.BlackJackMaster.blackjakgame.domain.exceptions.InvalidGameActionException;
 import com.example.BlackJackMaster.blackjakgame.domain.valueobjects.Deck;
 import com.example.BlackJackMaster.blackjakgame.domain.valueobjects.Hand;
-import com.example.BlackJackMaster.player.domain.exceptions.UserAlreadyDeletedException;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.EnumSet;
 
+@Document(collection = "games")
 public class Game {
+    @Id
     private String id;
     private Instant startedAt;
     private Instant finishedAt;
@@ -30,14 +34,17 @@ public class Game {
     private boolean deleted;
 
     public Game(String playerId, double initialBalance) {
+        this.startedAt = Instant.now();
+        this.finishedAt = null;
+        this.gameStatus = GameStatus.WAITING;
+        this.gameActions = GameActions.PENDING_ACTION;
+        this.gameResult = GameResult.NOT_DETERMINED;
         this.playerId = playerId;
         this.initialBalance = initialBalance;
         this.betAmount = 0;
-        this.gameStatus = GameStatus.WAITING;
-        this.gameResult = GameResult.NOT_DETERMINED;
+        this.playerHand = Hand.createEmptyHand();
+        this.dealerHand = Hand.createEmptyHand();
         this.deck = Deck.createDeck();
-        this.playerHand = new Hand();
-        this.dealerHand = new Hand();
     }
 
 

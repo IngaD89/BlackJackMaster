@@ -3,8 +3,6 @@ package com.example.BlackJackMaster.blackjakgame.domain.valueobjects;
 import com.example.BlackJackMaster.blackjakgame.domain.enums.CardValue;
 import com.example.BlackJackMaster.blackjakgame.domain.enums.CardVisibility;
 import com.example.BlackJackMaster.blackjakgame.domain.enums.Suit;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +12,9 @@ public class Card {
     private Suit suit;
     private CardValue value;
     private CardVisibility cardVisibility;
+
+    public Card() {
+    }
 
     public Card(Suit suit, CardValue value) {
         this.suit = suit;
