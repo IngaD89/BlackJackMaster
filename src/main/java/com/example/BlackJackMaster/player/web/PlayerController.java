@@ -4,6 +4,7 @@ import com.example.BlackJackMaster.player.application.PlayerService;
 import com.example.BlackJackMaster.player.domain.Player;
 import com.example.BlackJackMaster.player.web.dto.PlayerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,14 +26,25 @@ public class PlayerController {
         return playerService.getAllPlayers();
     }
 
+    @GetMapping("/{id}")
+    public Mono<ResponseEntity<Player>> getPlayerById(
+            String id
+    ){
+        return playerService.getById(id)
+                .map(ResponseEntity::ok);
+    }
+
     @PutMapping("/{id}")
-    public Mono<Player> updatePlayer(@PathVariable String id, @RequestBody PlayerDTO playerDTO){
-        return playerService.updatePlayer(id, playerDTO.getNickname(), playerDTO.getBalanceAmount());
+    public Mono<ResponseEntity<Player>> updatePlayer(@PathVariable String id, @RequestBody PlayerDTO playerDTO){
+        return playerService
+                .updatePlayer(id, playerDTO.getNickname(), playerDTO.getBalanceAmount())
+                .map(ResponseEntity::ok);
     }
 
     @DeleteMapping("/{id}")
-    public Mono<Player> deletePlayer(@PathVariable String id){
+    public Mono<ResponseEntity<Player>> deletePlayer(@PathVariable String id){
         return this.playerService
-                .deletePlayer(id);
+                .deletePlayer(id)
+                .map(ResponseEntity::ok);
     }
 }

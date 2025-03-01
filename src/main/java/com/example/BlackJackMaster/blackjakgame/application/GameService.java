@@ -13,6 +13,7 @@ import com.example.BlackJackMaster.player.domain.Player;
 import com.example.BlackJackMaster.player.domain.PlayerRepository;
 import com.example.BlackJackMaster.player.domain.valueobjects.Balance;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
@@ -133,6 +134,10 @@ public class GameService {
         return gameRepository.findById(gameId)
                 .filter(game -> !game.isDeleted())
                 .switchIfEmpty(Mono.error(new GameNotFoundException("Game not found")));
+    }
+
+    public Flux<Game> getAllGames(){
+        return gameRepository.findAll();
     }
 }
 
